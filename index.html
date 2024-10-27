@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Control LEDs with Firebase</title>
+
+</head>
+<body bgcolor="black">
+<center>
+  <h1>RGB Control</h1>
+  <h6>@devadityaraj</h6>
+  <div> 
+    <button class="btn" onclick="sendData(7)"> Power </button> <br> <br>
+    <button onclick="sendData(1)">Red</button> <br> <br>
+    <button onclick="sendData(2)">Blue</button> <br> <br>
+    <button onclick="sendData(3)">Green</button> <br> <br>
+    <button onclick="sendData(4)">Red Blue</button> <br> <br>
+    <button onclick="sendData(5)">Green Red</button> <br> <br>
+    <button onclick="sendData(6)">Blue Green</button> <br> <br>
+
+</center>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+
+  <script>
+        const firebaseConfig = {
+    apiKey: "AIzaSyCOXPhU-zqTFjuAzEejmhl_-6iXhCO6aiU",
+    authDomain: "esp-8266-wifi-rgb.firebaseapp.com",
+    databaseURL: "https://esp-8266-wifi-rgb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "esp-8266-wifi-rgb",
+    storageBucket: "esp-8266-wifi-rgb.appspot.com",
+    messagingSenderId: "1028510787125",
+    appId: "1:1028510787125:web:29ca2a210733c10726f37c"
+  };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    const USER_EMAIL = "adityaraj94505@gmail.com";
+    const USER_PASSWORD = "espwifirgb";
+
+    auth.signInWithEmailAndPassword(USER_EMAIL, USER_PASSWORD)
+      .then(() => {
+        console.log("Authenticated successfully");
+      })
+      .catch(error => {
+        console.error("Authentication error:", error);
+      });
+
+    function sendData(value) {
+      const valueRef = db.ref("/Value1");
+      valueRef.set(value)
+        .then(() => {
+          console.log("Value set to", value);
+        })
+        .catch(error => {
+          console.error("Error updating value:", error);
+        });
+    }
+  </script>
+
+</body>
+</html>
